@@ -1,0 +1,65 @@
+// server.js
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+const app = express();
+const PORT = 5000;
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+
+// Dummy Data
+const books = {
+  romance: ["https://yourdomain.com/books/romance1.pdf", "https://yourdomain.com/books/romance2.pdf"],
+  horror: ["https://yourdomain.com/books/horror1.pdf", "https://yourdomain.com/books/horror2.pdf"]
+};
+
+// Routes
+app.post('/api/checkout', async (req, res) => {
+  const { genre } = req.body;
+
+  // Create a Stripe Checkout Session
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [{
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: 'Mystery Book',
+        },
+        unit_amount: 500, // $5.00
+      },
+      quantity: 1,
+    }],
+    mode: 'payment',
+    success_url: 'https://yourdomain.com/success',
+    cancel_url: 'https://yourdomain.com/cancel',
+  });
+
+  res.json({ id: session.id });
+});
+
+app.get('/api/mystery-book', (req, res) => {
+  const { genre } = req.query;
+  const genreBooks = books[genre];
+
+  if (!genreBooks) {
+    return res.status(404).json({ error: 'Genre not found' });
+  }
+
+  // Select a random book from the genre
+  const randomBook = genreBooks[Math.floor(Math.random() * genreBooks.length)];
+  res.json({ ebook: randomBook });
+});
+
+app.get('/api/books', (req, res) => {
+  res.json(books);
+});
+
+// Start the Server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
