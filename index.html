@@ -1,177 +1,163 @@
-<!DOCTYPE html><html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vagick | All eBooks in One Place</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="logo.png">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f9fafb;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #6b46c1 0%, #3182ce 100%);
-        }
-        .product-card {
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: currentColor;
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        .cart-float {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #6b46c1;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 9999px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            display: none;
-            transition: all 0.3s ease;
-        }
-        .cart-float.show {
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <!-- Updated Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <img src="logo.png" alt="Vagick logo" class="h-10 w-10" />
-                <span class="ml-2 text-xl font-bold text-gray-800">Vagick</span>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#" class="nav-link text-gray-600 hover:text-gray-900">Home</a>
-                    <a href="#products" class="nav-link text-gray-600 hover:text-gray-900">eBooks</a>
-                    <a href="#categories" class="nav-link text-gray-600 hover:text-gray-900">Genres</a>
-                    <a href="#about" class="nav-link text-gray-600 hover:text-gray-900">About Us</a>
-                    <a href="#contact" class="nav-link text-gray-600 hover:text-gray-900">Contact</a>
-                </nav>
-            </div>
-        </div>
-    </header><!-- Hero Section -->
-<section class="gradient-bg text-white text-center py-20">
-    <h1 class="text-4xl md:text-5xl font-bold mb-4">Explore Every Genre. Anytime. Anywhere.</h1>
-    <p class="text-lg max-w-2xl mx-auto">From romance to thrillers, sci-fi to self-help — Vagick is your one-stop destination for all types of ebooks.</p>
-    <a href="#products" class="mt-8 inline-block bg-white text-purple-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition">Start Reading</a>
-</section>
-
-<!-- Product Section -->
-<section id="products" class="py-16 bg-gray-50">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-12">Featured eBook</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-white p-4 rounded-lg shadow product-card">
-                <img src="/images/beneath-the-silk-cover.jpg" alt="Beneath the Silk Book Cover" class="w-full h-64 object-cover rounded mb-4">
-                <h3 class="text-lg font-semibold mb-1">Beneath the Silk</h3>
-                <div class="flex items-center mb-1">
-                    <span class="text-yellow-400">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </span>
-                    <span class="ml-2 text-sm text-gray-500">4.5 (2,431 reviews)</span>
-                </div>
-                <p class="text-gray-600 text-sm mb-2">A dark, seductive tale of obsession, secrets, and power. Dive into Selene's tangled world of lust and lies.</p>
-                <div class="text-purple-700 font-bold text-xl mb-3">₹199</div>
-                <button onclick="addToCart('Beneath the Silk', 199)" class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition">Add to Cart</button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div id="cartFloat" class="cart-float">View Cart (<span id="cartCount">0</span>)</div>
-
-<!-- Reviews Section -->
-<section class="py-16 bg-white">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-12">Real Reviews from Real Readers</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-gray-100 p-6 rounded-lg shadow">
-                <p class="text-gray-600 mb-4">“Vagick has an incredible range of books. I discovered authors I never would’ve found elsewhere!”</p>
-                <h4 class="font-bold">— Ayesha, Literature Student</h4>
-            </div>
-            <div class="bg-gray-100 p-6 rounded-lg shadow">
-                <p class="text-gray-600 mb-4">“Perfect for reading on-the-go. The layout is clean and the downloads are fast.”</p>
-                <h4 class="font-bold">— Rohan, Software Engineer</h4>
-            </div>
-            <div class="bg-gray-100 p-6 rounded-lg shadow">
-                <p class="text-gray-600 mb-4">“I’m hooked on the dark romance section, but I love that I can switch to self-help or thrillers too!”</p>
-                <h4 class="font-bold">— Meera, Freelancer</h4>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-gray-900 text-white py-12">
-    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div>
-            <h4 class="text-xl font-semibold mb-4">Vagick</h4>
-            <p>Your digital bookshelf with everything from dark desires to academic reads.</p>
-        </div>
-        <div>
-            <h4 class="text-xl font-semibold mb-4">Genres</h4>
-            <ul class="space-y-2">
-                <li>Romance</li>
-                <li>Thriller</li>
-                <li>Sci-Fi</li>
-                <li>Self-Help</li>
-                <li>Business</li>
-            </ul>
-        </div>
-        <div>
-            <h4 class="text-xl font-semibold mb-4">Help</h4>
-            <ul class="space-y-2">
-                <li>Support</li>
-                <li>Terms of Use</li>
-                <li>Privacy Policy</li>
-                <li>Contact Us</li>
-            </ul>
-        </div>
-        <div>
-            <h4 class="text-xl font-semibold mb-4">Stay Connected</h4>
-            <form class="flex">
-                <input type="email" placeholder="Your email" class="rounded-l px-4 py-2 text-gray-800">
-                <button class="bg-purple-600 px-4 py-2 rounded-r hover:bg-purple-700">Subscribe</button>
-            </form>
-        </div>
-    </div>
-</footer>
-
-<!-- Cart Logic -->
-<script>
-    function addToCart(title, price) {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        cart.push({ title, price });
-        localStorage.setItem('cart', JSON.stringify(cart));
-        document.getElementById('cartCount').innerText = cart.length;
-        const floatCart = document.getElementById('cartFloat');
-        floatCart.classList.add('show');
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vagick | All eBooks in One Place</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="logo.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
     }
-</script>
+    .gradient-bg {
+      background: linear-gradient(135deg, #6b46c1 0%, #3182ce 100%);
+    }
+    .product-card {
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: currentColor;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .floating-cart {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #6b46c1;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 9999px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body><header class="bg-white shadow-sm sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+      <img src="logo.png" alt="Vagick logo" class="h-10 w-10" />
+      <span class="ml-2 text-xl font-bold text-gray-800">Vagick</span>
+      <nav class="hidden md:flex space-x-8">
+        <a href="#" class="nav-link text-gray-600 hover:text-gray-900">Home</a>
+        <a href="#products" class="nav-link text-gray-600 hover:text-gray-900">eBooks</a>
+        <a href="#categories" class="nav-link text-gray-600 hover:text-gray-900">Genres</a>
+        <a href="#about" class="nav-link text-gray-600 hover:text-gray-900">About Us</a>
+        <a href="#contact" class="nav-link text-gray-600 hover:text-gray-900">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header><!-- Hero Section --><section class="gradient-bg text-white text-center py-20">
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Explore Every Genre. Anytime. Anywhere.</h1>
+  <p class="text-lg max-w-2xl mx-auto">From romance to thrillers, sci-fi to self-help — Vagick is your one-stop destination for all types of ebooks.</p>
+  <a href="#products" class="mt-8 inline-block bg-white text-purple-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition">Start Reading</a>
+</section><!-- Product Card --><section class="py-16 bg-gray-50" id="products">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12">Featured Book</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="bg-white p-4 rounded-lg shadow product-card">
+        <img src="/images/beneath-the-silk-cover.jpg" alt="Beneath the Silk Book Cover" class="w-full h-64 object-cover rounded mb-4">
+        <h3 class="text-lg font-semibold mb-1">Beneath the Silk</h3>
+        <div class="flex items-center mb-1">
+          <span class="text-yellow-400">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </span>
+          <span class="ml-2 text-sm text-gray-500">4.5 (2,431 reviews)</span>
+        </div>
+        <p class="text-gray-600 text-sm mb-2">A dark, seductive tale of obsession, secrets, and power. Dive into Selene's tangled world of lust and lies.</p>
+        <div class="text-purple-700 font-bold text-xl mb-3">₹199</div>
+        <button onclick="addToCart('Beneath the Silk', 199)" class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section><!-- Floating Cart Button --><div class="floating-cart" onclick="window.location.href='cart.html'">
+  <i class="fas fa-shopping-cart mr-2"></i>
+  View Cart (<span id="cart-count">0</span>)
+</div><!-- Reviews Section --><section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12">Real Reviews from Real Readers</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-gray-100 p-6 rounded-lg shadow">
+        <p class="text-gray-600 mb-4">“Vagick has an incredible range of books. I discovered authors I never would’ve found elsewhere!”</p>
+        <h4 class="font-bold">— Ayesha, Literature Student</h4>
+      </div>
+      <div class="bg-gray-100 p-6 rounded-lg shadow">
+        <p class="text-gray-600 mb-4">“Perfect for reading on-the-go. The layout is clean and the downloads are fast.”</p>
+        <h4 class="font-bold">— Rohan, Software Engineer</h4>
+      </div>
+      <div class="bg-gray-100 p-6 rounded-lg shadow">
+        <p class="text-gray-600 mb-4">“I’m hooked on the dark romance section, but I love that I can switch to self-help or thrillers too!”</p>
+        <h4 class="font-bold">— Meera, Freelancer</h4>
+      </div>
+    </div>
+  </div>
+</section><!-- Footer --><footer class="bg-gray-900 text-white py-12">
+  <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div>
+      <h4 class="text-xl font-semibold mb-4">Vagick</h4>
+      <p>Your digital bookshelf with everything from dark desires to academic reads.</p>
+    </div>
+    <div>
+      <h4 class="text-xl font-semibold mb-4">Genres</h4>
+      <ul class="space-y-2">
+        <li>Romance</li>
+        <li>Thriller</li>
+        <li>Sci-Fi</li>
+        <li>Self-Help</li>
+        <li>Business</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-xl font-semibold mb-4">Help</h4>
+      <ul class="space-y-2">
+        <li>Support</li>
+        <li>Terms of Use</li>
+        <li>Privacy Policy</li>
+        <li>Contact Us</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-xl font-semibold mb-4">Stay Connected</h4>
+      <form class="flex">
+        <input type="email" placeholder="Your email" class="rounded-l px-4 py-2 text-gray-800">
+        <button class="bg-purple-600 px-4 py-2 rounded-r hover:bg-purple-700">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</footer><script>
+function addToCart(title, price) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.push({ title, price });
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+}
 
-</body>
-                </html>
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  document.getElementById('cart-count').innerText = cart.length;
+}
+
+document.addEventListener('DOMContentLoaded', updateCartCount);
+</script></body>
+</html>
