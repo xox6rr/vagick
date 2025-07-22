@@ -1,4 +1,7 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vagick | All eBooks in One Place</title>
@@ -9,37 +12,43 @@
     body {
       font-family: 'Inter', sans-serif;
       background-color: #f9fafb;
-    }.product-card {
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-}
+    }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
+    .product-card {
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    }
 
-.floating-cart-btn {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #7e22ce;
-  color: white;
-  padding: 0.75rem 1.25rem;
-  border-radius: 9999px;
-  font-weight: 600;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  display: none;
-  z-index: 50;
-}
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
 
+    .floating-cart-btn {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #7e22ce;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      display: none;
+      z-index: 50;
+    }
   </style>
-</head><body class="relative pb-28">
+</head>
+
+<body class="relative pb-28">
   <!-- Floating Cart Button -->
-  <button id="floatingCartBtn" class="floating-cart-btn">
+  <a href="cart.html" id="floatingCartBtn" class="floating-cart-btn">
     <i class="fas fa-shopping-cart mr-2"></i>View Cart
-  </button>  <!-- Header -->  <header class="bg-white shadow-md sticky top-0 z-50">
+  </a>
+
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
     <div class="flex justify-between items-center px-4 py-4">
       <div class="flex items-center space-x-4">
         <img src="logo.png" alt="Vagick Logo" class="h-10 w-10" />
@@ -47,23 +56,32 @@
       <div class="flex space-x-2 items-center">
         <input type="text" placeholder="Search..." class="border px-2 py-1 rounded-full w-32 sm:w-48" />
         <a href="#wishlist"><i class="fas fa-heart text-lg"></i></a>
-        <a href="#cart"><i class="fas fa-shopping-bag text-lg"></i></a>
+        <a href="cart.html"><i class="fas fa-shopping-bag text-lg"></i></a>
       </div>
     </div>
-  </header>  <!-- Category Scroll -->  <div class="overflow-x-auto whitespace-nowrap px-4 py-2 bg-white shadow">
+  </header>
+
+  <!-- Category Scroll -->
+  <div class="overflow-x-auto whitespace-nowrap px-4 py-2 bg-white shadow">
     <button class="inline-block bg-gray-200 px-4 py-2 rounded-full mx-1">Fiction</button>
     <button class="inline-block bg-gray-200 px-4 py-2 rounded-full mx-1">Non-Fiction</button>
     <button class="inline-block bg-gray-200 px-4 py-2 rounded-full mx-1">Romance</button>
     <button class="inline-block bg-gray-200 px-4 py-2 rounded-full mx-1">Mystery</button>
     <button class="inline-block bg-gray-200 px-4 py-2 rounded-full mx-1">Self-Help</button>
     <button class="inline-block bg-gray-200 px-4 py-2 rounded-full mx-1">Sci-Fi</button>
-  </div>  <!-- Banner Section -->  <section class="p-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
+  </div>
+
+  <!-- Banner Section -->
+  <section class="p-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
     <div class="text-center">
       <h1 class="text-2xl font-bold uppercase">GET 10% OFF</h1>
       <p class="text-sm">on your first order</p>
       <p class="text-xs mt-1">Use code <span class="text-xs font-semibold">BIGD10</span> <em class="text-[10px]">T&C applied</em></p>
     </div>
-  </section>  <!-- Product Section -->  <section class="px-4 py-6">
+  </section>
+
+  <!-- Product Section -->
+  <section class="px-4 py-6">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold">Trending Books</h2>
       <div class="flex space-x-2">
@@ -96,14 +114,22 @@
         <button onclick="addToCart()" class="bg-purple-600 text-white w-full py-1 rounded mt-2 hover:bg-purple-700">Add to Cart</button>
       </div>
     </div>
-  </section>  <!-- Bottom Nav -->  <div class="fixed bottom-0 w-full bg-white border-t shadow-inner grid grid-cols-5 text-center py-2 text-xs">
+  </section>
+
+  <!-- Bottom Nav -->
+  <div class="fixed bottom-0 w-full bg-white border-t shadow-inner grid grid-cols-5 text-center py-2 text-xs">
     <a href="#" class="text-purple-600 flex flex-col items-center"><i class="fas fa-home"></i>Home</a>
     <a href="#" class="text-gray-600 flex flex-col items-center"><i class="fas fa-book-open"></i>Shop</a>
     <a href="#" class="text-gray-600 flex flex-col items-center"><i class="fas fa-book"></i>Library</a>
     <a href="#" class="text-gray-600 flex flex-col items-center"><i class="fas fa-box"></i>Orders</a>
     <a href="#" class="text-gray-600 flex flex-col items-center"><i class="fas fa-user"></i>Profile</a>
-  </div>  <script>
+  </div>
+
+  <script>
     function addToCart() {
       document.getElementById('floatingCartBtn').style.display = 'block';
     }
-  </script></body></html>
+  </script>
+</body>
+
+</html>
