@@ -4,100 +4,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Cart | Vagick</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f9fafb;
     }
     .cart-item {
-      border-bottom: 1px solid #e5e7eb;
-      padding-bottom: 1rem;
-      margin-bottom: 1rem;
+      border-bottom: 1px solid #ddd;
+      padding: 1rem 0;
     }
   </style>
 </head>
-<body class="text-gray-800">
-  <div class="container mx-auto p-6">
+<body class="bg-gray-100">
+  <div class="max-w-2xl mx-auto p-4">
     <h1 class="text-3xl font-bold mb-6">Your Cart</h1>
-    <div id="cartItems" class="mb-6"></div><div class="mb-4">
-  <label for="coupon" class="block font-semibold mb-1">Apply Coupon</label>
-  <input type="text" id="coupon" placeholder="Enter coupon code" class="px-4 py-2 rounded border border-gray-300 w-64">
-  <button onclick="applyCoupon()" class="ml-2 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Apply</button>
-  <p id="discountMessage" class="text-green-600 mt-2 hidden">10% discount applied!</p>
+    <div id="cartItems"></div><div class="mt-8">
+  <h2 class="text-xl font-semibold mb-2">Apply Coupon</h2>
+  <input id="couponInput" type="text" placeholder="Enter coupon code" class="w-full border rounded px-4 py-2 mb-2">
+  <button onclick="applyCoupon()" class="bg-purple-600 text-white px-4 py-2 rounded">Apply</button>
 </div>
 
-<div class="text-lg font-semibold mb-4">Total: ₹<span id="cartTotal">0</span></div>
-<button class="bg-purple-600 text-white px-6 py-3 rounded hover:bg-purple-700">Buy Now</button>
+<div class="mt-6 text-xl">
+  <p><strong>Total: ₹</strong><span id="totalAmount">0</span></p>
+</div>
+
+<button class="mt-4 w-full bg-purple-600 text-white px-4 py-3 rounded">Buy Now</button>
 
   </div>  <script>
-    const cartContainer = document.getElementById('cartItems');
-    const cartTotal = document.getElementById('cartTotal');
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let cart = [
+      { id: 1, title: "Beneath the Silk", price: 199, quantity: 1 },
+      { id: 2, title: "Beneath the Silk", price: 199, quantity: 1 }
+    ];
+
     let discount = 0;
 
-    function updateCartDisplay() {
-      cartContainer.innerHTML = '';
-      let total = 0;
+    function renderCart() {
+      const cartContainer = document.getElementById("cartItems");
+      cartContainer.innerHTML = "";
 
       cart.forEach((item, index) => {
-        const itemTotal = item.price * item.quantity;
-        total += itemTotal;
-
-        const div = document.createElement('div');
-        div.classList.add('cart-item');
-        div.innerHTML = `
-          <div class="flex justify-between items-center">
-            <div>
-              <h3 class="font-bold">${item.title}</h3>
-              <p>Price: ₹${item.price}</p>
-              <p>Quantity:
-                <button onclick="changeQty(${index}, -1)" class="text-xl px-2">−</button>
-                ${item.quantity}
-                <button onclick="changeQty(${index}, 1)" class="text-xl px-2">+</button>
-              </p>
-              <p>Subtotal: ₹${itemTotal.toFixed(2)}</p>
-            </div>
-            <button onclick="removeItem(${index})" class="text-red-600 hover:underline">Remove</button>
+        const subtotal = item.price * item.quantity;
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("cart-item");
+        itemDiv.innerHTML = `
+          <h2 class="text-lg font-semibold">${item.title}</h2>
+          <p>Price: ₹${item.price}</p>
+          <div class="flex items-center space-x-2 my-2">
+            <span>Quantity:</span>
+            <button onclick="decrease(${index})" class="bg-gray-300 px-2 rounded">-</button>
+            <span id="qty-${index}">${item.quantity}</span>
+            <button onclick="increase(${index})" class="bg-gray-300 px-2 rounded">+</button>
           </div>
+          <p id="subtotal-${index}">Subtotal: ₹${subtotal}</p>
+          <button onclick="removeItem(${index})" class="text-red-500 mt-2">Remove</button>
         `;
-        cartContainer.appendChild(div);
+        cartContainer.appendChild(itemDiv);
       });
 
-      // Apply discount if any
-      if (discount > 0) {
-        total = total - (total * discount);
-        document.getElementById('discountMessage').classList.remove('hidden');
-      }
-
-      cartTotal.textContent = total.toFixed(2);
-      localStorage.setItem('cart', JSON.stringify(cart));
+      updateTotal();
     }
 
-    function changeQty(index, delta) {
-      if (cart[index].quantity + delta > 0) {
-        cart[index].quantity += delta;
-        updateCartDisplay();
+    function increase(index) {
+      cart[index].quantity++;
+      renderCart();
+    }
+
+    function decrease(index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+        renderCart();
       }
     }
 
     function removeItem(index) {
       cart.splice(index, 1);
-      updateCartDisplay();
+      renderCart();
+    }
+
+    function updateTotal() {
+      let total = 0;
+      cart.forEach(item => total += item.price * item.quantity);
+      total = total - (total * discount);
+      document.getElementById("totalAmount").textContent = total.toFixed(2);
     }
 
     function applyCoupon() {
-      const code = document.getElementById('coupon').value.trim();
-      if (code.toUpperCase() === 'BIGD10') {
+      const code = document.getElementById("couponInput").value.trim();
+      if (code.toUpperCase() === "BIGD10") {
         discount = 0.10;
+        alert("Coupon applied! 10% discount");
       } else {
         discount = 0;
-        document.getElementById('discountMessage').classList.add('hidden');
-        alert('Invalid or expired coupon');
+        alert("Invalid coupon");
       }
-      updateCartDisplay();
+      renderCart();
     }
 
-    updateCartDisplay();
+    renderCart();
   </script></body>
 </html>
