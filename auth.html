@@ -1,20 +1,93 @@
-<!-- Firebase SDKs (Already included) -->
-<script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-auth-compat.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vagick Auth</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-auth-compat.js"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen font-sans">
 
-<script>
-  // ✅ Firebase config - Tumhara diya hua code
-  const firebaseConfig = {
-    apiKey: "AIzaSyC8uXJMWB8_c_gQrpRThirE9tjI58FCF0o",
-    authDomain: "vagickauth.firebaseapp.com",
-    projectId: "vagickauth",
-    storageBucket: "vagickauth.appspot.com",
-    messagingSenderId: "66936190647",
-    appId: "1:66936190647:web:8c4b6383b5e6c597b57f32",
-    measurementId: "G-G3Q66NNH08"
-  };
+  <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
+    <h2 class="text-3xl font-bold text-center text-purple-700">Vagick Login</h2>
 
-  // ✅ Firebase Initialize
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-</script>
+    <div id="message" class="text-center text-sm text-red-500"></div>
+
+    <input type="email" id="email" placeholder="Email" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400" />
+    <input type="password" id="password" placeholder="Password" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400" />
+
+    <div class="flex justify-between text-sm text-gray-500">
+      <button onclick="resetPassword()" class="hover:text-purple-600">Forgot Password?</button>
+      <button onclick="toggleMode()" class="hover:text-purple-600" id="toggleModeBtn">Don't have an account?</button>
+    </div>
+
+    <button onclick="authAction()" class="w-full px-4 py-2 font-semibold text-white bg-purple-600 rounded-md hover:bg-purple-700 transition">Login</button>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8uXJMWB8_c_gQrpRThirE9tjI58FCF0o",
+      authDomain: "vagickauth.firebaseapp.com",
+      projectId: "vagickauth",
+      storageBucket: "vagickauth.appspot.com",
+      messagingSenderId: "66936190647",
+      appId: "1:66936190647:web:8c4b6383b5e6c597b57f32",
+      measurementId: "G-G3Q66NNH08"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    let isLogin = true;
+
+    function toggleMode() {
+      isLogin = !isLogin;
+      document.querySelector("h2").innerText = isLogin ? "Vagick Login" : "Create an Account";
+      document.querySelector("button").innerText = isLogin ? "Login" : "Sign Up";
+      document.getElementById("toggleModeBtn").innerText = isLogin ? "Don't have an account?" : "Already have an account?";
+    }
+
+    function authAction() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      if (isLogin) {
+        auth.signInWithEmailAndPassword(email, password)
+          .then(() => {
+            message.innerText = "Logged in successfully!";
+            message.classList.remove("text-red-500");
+            message.classList.add("text-green-500");
+          })
+          .catch(error => message.innerText = error.message);
+      } else {
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            message.innerText = "Account created successfully!";
+            message.classList.remove("text-red-500");
+            message.classList.add("text-green-500");
+          })
+          .catch(error => message.innerText = error.message);
+      }
+    }
+
+    function resetPassword() {
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message");
+      if (!email) {
+        message.innerText = "Please enter your email.";
+        return;
+      }
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          message.innerText = "Password reset email sent.";
+          message.classList.remove("text-red-500");
+          message.classList.add("text-green-500");
+        })
+        .catch(error => message.innerText = error.message);
+    }
+  </script>
+
+</body>
+</html>
