@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart | Vagick</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold text-purple-700">Vagick</a>
+      <span class="text-gray-600">Cart</span>
+    </div>
+  </header>  <!-- Cart Content -->  <main class="flex-1 container mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-6">Your Cart</h2>
+    <div id="cartItems" class="space-y-6"></div><div class="mt-10 text-right">
+  <p class="text-xl font-semibold">Total: ₹<span id="cartTotal">0.00</span></p>
+  <button id="buyNow" class="mt-4 px-6 py-3 bg-purple-700 text-white rounded hover:bg-purple-800 transition">Buy Now</button>
+</div>
+
+  </main>  <!-- Footer -->  <footer class="bg-gray-800 text-white py-6 text-center">
+    <p>&copy; 2025 Vagick. All rights reserved.</p>
+  </footer>  <!-- Script to Render Cart Items -->  <script>
+    const cartItemsContainer = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    let total = 0;
+
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if (cart.length === 0) {
+      cartItemsContainer.innerHTML = '<p class="text-gray-500">Your cart is empty.</p>';
+    } else {
+      cart.forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'flex items-center justify-between border p-4 rounded shadow';
+        itemEl.innerHTML = `
+          <div class="flex items-center space-x-4">
+            <img src="${item.image}" class="w-20 h-28 rounded" alt="${item.title}" />
+            <div>
+              <h3 class="text-lg font-semibold">${item.title}</h3>
+              <p class="text-sm text-gray-500">₹${item.price.toFixed(2)}</p>
+            </div>
+          </div>
+          <button class="text-red-500 font-semibold" onclick="removeItem('${item.id}')">Remove</button>
+        `;
+        cartItemsContainer.appendChild(itemEl);
+        total += item.price;
+      });
+    }
+
+    cartTotal.innerText = total.toFixed(2);
+
+    function removeItem(id) {
+      const newCart = cart.filter(item => item.id !== id);
+      localStorage.setItem('cart', JSON.stringify(newCart));
+      location.reload();
+    }
+
+    document.getElementById('buyNow').addEventListener('click', () => {
+      if (cart.length === 0) return alert('Cart is empty');
+      alert('Payment Successful! Your ebook(s) will be sent shortly.');
+      localStorage.removeItem('cart');
+      location.href = 'index.html';
+    });
+  </script></body>
+</html>
