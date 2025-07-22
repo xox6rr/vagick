@@ -35,6 +35,22 @@
         .nav-link:hover::after {
             width: 100%;
         }
+        .cart-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #6b46c1;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 9999px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: none;
+            transition: all 0.3s ease;
+        }
+        .cart-float.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -60,11 +76,11 @@
     <a href="#products" class="mt-8 inline-block bg-white text-purple-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition">Start Reading</a>
 </section>
 
-<!-- Product Section: Beneath the Silk -->
-<section class="py-16 bg-gray-50" id="products">
+<!-- Product Section -->
+<section id="products" class="py-16 bg-gray-50">
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-center mb-12">Featured eBook</h2>
-        <div class="max-w-sm mx-auto">
+        <div class="grid md:grid-cols-3 gap-8">
             <div class="bg-white p-4 rounded-lg shadow product-card">
                 <img src="/images/beneath-the-silk-cover.jpg" alt="Beneath the Silk Book Cover" class="w-full h-64 object-cover rounded mb-4">
                 <h3 class="text-lg font-semibold mb-1">Beneath the Silk</h3>
@@ -80,11 +96,13 @@
                 </div>
                 <p class="text-gray-600 text-sm mb-2">A dark, seductive tale of obsession, secrets, and power. Dive into Selene's tangled world of lust and lies.</p>
                 <div class="text-purple-700 font-bold text-xl mb-3">₹199</div>
-                <button class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition" onclick="addToCart('Beneath the Silk', 199)">Add to Cart</button>
+                <button onclick="addToCart('Beneath the Silk', 199)" class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition">Add to Cart</button>
             </div>
         </div>
     </div>
 </section>
+
+<div id="cartFloat" class="cart-float">View Cart (<span id="cartCount">0</span>)</div>
 
 <!-- Reviews Section -->
 <section class="py-16 bg-white">
@@ -143,14 +161,17 @@
     </div>
 </footer>
 
+<!-- Cart Logic -->
 <script>
     function addToCart(title, price) {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         cart.push({ title, price });
         localStorage.setItem('cart', JSON.stringify(cart));
-        alert(`${title} has been added to your cart.`);
+        document.getElementById('cartCount').innerText = cart.length;
+        const floatCart = document.getElementById('cartFloat');
+        floatCart.classList.add('show');
     }
 </script>
 
 </body>
-</html>
+                </html>
