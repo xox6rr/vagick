@@ -9,6 +9,13 @@
       font-family: 'Inter', sans-serif;
       background-color: #f9fafb;
     }
+    .qty-button {
+      padding: 0.3rem 0.6rem;
+      background-color: #e5e7eb;
+      border-radius: 0.25rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -16,7 +23,7 @@
   <header class="bg-white shadow p-4">
     <div class="container mx-auto flex justify-between items-center">
       <a href="index.html" class="text-xl font-bold text-purple-700">Vagick</a>
-      <span class="text-gray-600">Cart</span>
+      <a href="cart.html" class="text-gray-600 hover:text-purple-600 font-semibold">View Cart</a>
     </div>
   </header>  <!-- Cart Content -->  <main class="flex-1 container mx-auto p-6">
     <h2 class="text-2xl font-bold mb-6">Your Cart</h2>
@@ -30,14 +37,19 @@
   </footer>  <!-- Script to Render Cart Items -->  <script>
     const cartItemsContainer = document.getElementById('cartItems');
     const cartTotal = document.getElementById('cartTotal');
-    let total = 0;
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    function updateCartDisplay() {
+      cartItemsContainer.innerHTML = '';
+      let total = 0;
 
-    if (cart.length === 0) {
-      cartItemsContainer.innerHTML = '<p class="text-gray-500">Your cart is empty.</p>';
-    } else {
-      cart.forEach(item => {
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p class="text-gray-500">Your cart is empty.</p>';
+        cartTotal.innerText = '0.00';
+        return;
+      }
+
+      cart.forEach((item, index) => {
         const itemEl = document.createElement('div');
         itemEl.className = 'flex items-center justify-between border p-4 rounded shadow';
         itemEl.innerHTML = `
@@ -46,28 +58,43 @@
             <div>
               <h3 class="text-lg font-semibold">${item.title}</h3>
               <p class="text-sm text-gray-500">₹${item.price.toFixed(2)}</p>
+              <div class="flex items-center space-x-2 mt-2">
+                <button class="qty-button" onclick="changeQty(${index}, -1)">−</button>
+                <span id="qty-${index}" class="text-md font-medium">${item.qty}</span>
+                <button class="qty-button" onclick="changeQty(${index}, 1)">+</button>
+              </div>
             </div>
           </div>
-          <button class="text-red-500 font-semibold" onclick="removeItem('${item.id}')">Remove</button>
+          <button class="text-red-500 font-semibold" onclick="removeItem(${index})">Remove</button>
         `;
         cartItemsContainer.appendChild(itemEl);
-        total += item.price;
+        total += item.price * item.qty;
       });
+
+      cartTotal.innerText = total.toFixed(2);
+      localStorage.setItem('cart', JSON.stringify(cart));
     }
 
-    cartTotal.innerText = total.toFixed(2);
+    function changeQty(index, delta) {
+      cart[index].qty += delta;
+      if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+      }
+      updateCartDisplay();
+    }
 
-    function removeItem(id) {
-      const newCart = cart.filter(item => item.id !== id);
-      localStorage.setItem('cart', JSON.stringify(newCart));
-      location.reload();
+    function removeItem(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
     }
 
     document.getElementById('buyNow').addEventListener('click', () => {
       if (cart.length === 0) return alert('Cart is empty');
       alert('Payment Successful! Your ebook(s) will be sent shortly.');
       localStorage.removeItem('cart');
-      location.href = 'index.html';
+      window.location.href = 'index.html';
     });
+
+    updateCartDisplay();
   </script></body>
 </html>
